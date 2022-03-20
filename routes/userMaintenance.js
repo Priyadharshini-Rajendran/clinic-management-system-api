@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getAllPatient, createNewPatient } = require('../services/userMaintaince');
+const { getAllPatient, createNewPatient, updatePatient, getPatientInfo } = require('../services/userMaintaince');
 const userMaintenanceRouter = Router();
 
 userMaintenanceRouter.get('/', async (req, res) => {
@@ -8,10 +8,10 @@ userMaintenanceRouter.get('/', async (req, res) => {
 userMaintenanceRouter.post('/', async (req, res) => {
   await createNewPatient(req, res);
 });
-userMaintenanceRouter.get('/:userId', (req, res) => {
-  res.send({ message: 'Hello world' });
+userMaintenanceRouter.get('/:userId', async (req, res) => {
+  await getPatientInfo(req, res);
 });
-userMaintenanceRouter.put('/:userId', (req, res) => {
-  res.send({ message: 'Hello world' });
+userMaintenanceRouter.put('/:userId', async (req, res) => {
+  await updatePatient(req, res);
 });
 module.exports = userMaintenanceRouter;

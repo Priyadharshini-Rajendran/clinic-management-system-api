@@ -1,17 +1,17 @@
 const { Router } = require('express');
-
+const { createAppointment, deleteAppointment, getAllAppointment, getAppointmentDetail } = require('../services/appointment');
 const appointmentRouter = Router();
 
-appointmentRouter.get('/', (req, res) => {
-  res.send({ message: 'Hello world' });
+appointmentRouter.get('/', async (req, res) => {
+  await getAllAppointment(req, res);
 });
-appointmentRouter.post('/', (req, res) => {
-  res.send({ message: 'Hello world' });
+appointmentRouter.post('/', async (req, res) => {
+  await createAppointment(req, res);
 });
-appointmentRouter.get('/:userId', (req, res) => {
-  res.send({ message: 'Hello world' });
+appointmentRouter.get('/:id', async (req, res) => {
+  await getAppointmentDetail(req, res);
 });
-appointmentRouter.put('/:userId', (req, res) => {
-  res.send({ message: 'Hello world' });
+appointmentRouter.delete('/:id', async (req, res) => {
+  await deleteAppointment(req, res);
 });
 module.exports = appointmentRouter;
