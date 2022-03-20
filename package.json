@@ -1,0 +1,28 @@
+{
+  "name": "clinic-management-system-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Priyadharshini-Rajendran/clinic-management-system-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Priyadharshini-Rajendran/clinic-management-system-api/issues"
+  },
+  "homepage": "https://github.com/Priyadharshini-Rajendran/clinic-management-system-api#readme",
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "express": "^4.17.3",
+    "helmet": "^5.0.2",
+    "http": "^0.0.1-security",
+    "http-errors": "^2.0.0",
+    "mongodb": "^4.4.1"
+  }
+}
