@@ -1,9 +1,9 @@
 const { Router } = require('express');
-
+const { loginUser } = require('../services/login');
 const loginRouter = Router();
 
-loginRouter.post('/', (req, res) => {
-  res.send({ message: 'Hello world' });
+loginRouter.post('/', async (req, res) => {
+  await loginUser(req, res);
 });
 
 module.exports = loginRouter;

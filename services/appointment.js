@@ -1,3 +1,4 @@
+const moment = require('moment');
 const { ObjectId } = require('mongodb');
 const database = require('../database/database');
 const { sendMail } = require('../utils/sendMail');
@@ -6,9 +7,13 @@ const createAppointment = async (req, res) => {
   try {
     const { body } = req;
     const dbConnect = await database.getDb();
+    body.createdAt = new Date();
+    body.isAppointmentClosed = false;
+    body.isPaymentDone = false;
+
     await dbConnect.collection('appointment').insertOne(body);
     if (body.mailId) {
-      await sendMail(mailId);
+      // await sendMail(body.mailId);
     }
     res.status(200).json({ message: 'New Appointment Created' });
   } catch (error) {
@@ -16,6 +21,29 @@ const createAppointment = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
+const updateAppointment = async (req, res) => {
+  try {
+    const {
+      body,
+      params: { id },
+    } = req;
+    if (body._id) {
+      delete body._id;
+    }
+    const dbConnect = await database.getDb();
+    delete body._id;
+    await dbConnect.collection('appointment').findOneAndUpdate({ _id: ObjectId(id) }, { $set: body });
+    if (body.mailId) {
+      // await sendMail(mailId);
+    }
+    res.status(200).json({ message: 'Appointment Updated Successfully' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+};
+
 const deleteAppointment = async (req, res) => {
   const {
     params: { id },
@@ -34,7 +62,10 @@ const getAllAppointment = async (req, res) => {
   try {
     const dbConnect = await database.getDb();
     if (dbConnect) {
-      const userResponse = await dbConnect.collection('appointment').find().toArray();
+      const userResponse = await dbConnect
+        .collection('appointment')
+        .find({ appointmentDate: moment().format('DD-MM-YYYY') })
+        .toArray();
       res.status(200).json(userResponse);
     }
   } catch (error) {
@@ -55,4 +86,4 @@ const getAppointmentDetail = async (req, res) => {
     res.status(500).json(error);
   }
 };
-module.exports = { createAppointment, deleteAppointment, getAllAppointment, getAppointmentDetail };
+module.exports = { createAppointment, deleteAppointment, getAllAppointment, getAppointmentDetail, updateAppointment };

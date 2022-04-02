@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { createAppointment, deleteAppointment, getAllAppointment, getAppointmentDetail } = require('../services/appointment');
+const { createAppointment, deleteAppointment, getAllAppointment, getAppointmentDetail, updateAppointment } = require('../services/appointment');
 const appointmentRouter = Router();
 
 appointmentRouter.get('/', async (req, res) => {
@@ -13,5 +13,8 @@ appointmentRouter.get('/:id', async (req, res) => {
 });
 appointmentRouter.delete('/:id', async (req, res) => {
   await deleteAppointment(req, res);
+});
+appointmentRouter.put('/:id', async (req, res) => {
+  await updateAppointment(req, res);
 });
 module.exports = appointmentRouter;

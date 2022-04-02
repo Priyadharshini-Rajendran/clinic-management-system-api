@@ -22,9 +22,10 @@ const createNewPatient = async (req, res) => {
       newUserId = defaultValue + body.firstName.charAt(1) + body.firstName.charAt(2) + body.dob.split('-')[1] + body.age;
     }
     body.userId = newUserId.toUpperCase();
+    body.createdAt = new Date();
     const userResponse = await dbConnect.collection('patientdetails').insertOne(body);
     if (body.mailId) {
-      await sendMail(mailId);
+      // await sendMail(body.mailId); // commented for now
     }
     res.status(200).json({ message: 'New Patient Created' });
   } catch (error) {
@@ -38,6 +39,9 @@ const updatePatient = async (req, res) => {
       body,
       params: { userId },
     } = req;
+    if (body._id) {
+      delete body._id;
+    }
     const dbConnect = await database.getDb();
     const userResponse = await dbConnect.collection('patientdetails').findOneAndUpdate({ userId }, { $set: body });
     res.status(200).json({ message: 'Updated Patient Details' });
@@ -53,7 +57,7 @@ const getPatientInfo = async (req, res) => {
     } = req;
     const dbConnect = await database.getDb();
     const userResponse = await dbConnect.collection('patientdetails').findOne({ userId });
-    res.status(200).json({ message: 'Updated Patient Details' });
+    res.status(200).json(userResponse);
   } catch (error) {
     res.status(500).json(error);
   }

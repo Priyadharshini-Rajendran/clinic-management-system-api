@@ -8,10 +8,11 @@ const userRoute = require('./routes/userMaintenance');
 const appointmentRoute = require('./routes/appointment');
 const loginRoute = require('./routes/login');
 const database = require('./database/database');
-const port = 3000;
+const cors = require('cors');
+const port = 3001;
 
 const app = express();
-
+app.use(cors({ origin: '*' }));
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
