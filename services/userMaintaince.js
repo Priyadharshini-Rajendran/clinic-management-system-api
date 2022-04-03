@@ -1,5 +1,6 @@
 const database = require('../database/database');
 const { sendMail } = require('../utils/sendMail');
+const { ObjectId } = require("mongodb");
 const defaultValue = 'PAT';
 const getAllPatient = async (req, res) => {
   try {
@@ -23,6 +24,7 @@ const createNewPatient = async (req, res) => {
     }
     body.userId = newUserId.toUpperCase();
     body.createdAt = new Date();
+    body._id = ObjectId();
     const userResponse = await dbConnect.collection('patientdetails').insertOne(body);
     if (body.mailId) {
       // await sendMail(body.mailId); // commented for now
